@@ -1,5 +1,5 @@
 package ws2014.tpe.gruppe_1415349_1410206.uebung4;
-
+import java.util.List;
 /**
  * Grundlegendes Interface, un Verschlüsselung durchzuführen. Mit Hilfe dieses
  * Interfaces kann man Nachrichten verschlüsseln (über die
@@ -55,7 +55,7 @@ public interface Crypter {
 	 *             auftreten.
 	 */
 	
-	publis String decrypt(String cypherText)
+	public String decrypt(String cypherText)
 			throws CrypterException;
 	
 	/**
@@ -68,7 +68,7 @@ public interface Crypter {
 	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
 	 *             auftreten.
 	 */
-	publis List<String> decrypt(List<String> cyrherTexte)
+	public List<String> decrypt(List<String> cyrherTexte)
 			throws CrypterException;
 }
 
