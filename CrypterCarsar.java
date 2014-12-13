@@ -21,8 +21,8 @@ public class CrypterCarsar implements Crypter {
 
 	private Alphabet key;
 
-	public CrypterCarsar(char key) {
-		this.key = Alphabet.valueOf("" + key);
+	public CrypterCarsar(String key) {
+		this.key = Alphabet.valueOf(key);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class CrypterCarsar implements Crypter {
 
 	@Override
 	public String decrypt(String cypherText) throws CrypterException {
-		Alphabet temp;
+		Alphabet temp= null;
 		String erg = "";
 		int hilf;
 		Alphabet[] array = Alphabet.values();
