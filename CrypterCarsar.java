@@ -42,7 +42,7 @@ public class CrypterCarsar implements Crypter {
 			if (hilf > 26) {
 				hilf = hilf - 26;
 			}
-			erg = erg + array[hilf + 1].name();
+			erg = erg + array[hilf - 1].name();
 		}
 		return erg;
 	}
@@ -81,10 +81,10 @@ public class CrypterCarsar implements Crypter {
 		for (int index = 0; index < cypherText.length(); index++) {
 			temp = Alphabet.valueOf("" + cypherText.charAt(index));
 			hilf = (temp.wert - key.wert);
-			if (hilf < 1) {
+			if (hilf < 0) {
 				hilf = hilf + 26;
 			}
-			erg = erg + array[hilf + 1].name();
+			erg = erg + array[hilf - 1].name();
 		}
 		return erg;
 	}
@@ -110,24 +110,24 @@ public class CrypterCarsar implements Crypter {
 	}
 
 	public static void main(String[] args) {
-		CrypterCarsar caesar = new CrypterCarsar("A");
-		String message = "HZa  11JKv";
-		boolean schleifeEnde = false;
+		CrypterCarsar nul = new CrypterCarsar("G");
+		String message = "ABCDE";
 		String erg = "";
-
-		while (!schleifeEnde) {
+		String erg2 = "";
+		while (erg.equals("") && erg2.equals("")) {
 			try {
-				erg = caesar.encrypt(message);
-				schleifeEnde = true;
+				erg = nul.encrypt(message);
+				erg2 = nul.decrypt(erg);
+
 			} catch (CrypterException ex) {
 				message = message.toUpperCase();
 				for (int index = 0; index < message.length(); index++) {
 					message = message.replaceAll("(?u)[^\\pL]", "");
 				}
 			}
-
 		}
 		System.out.println(message);
 		System.out.println(erg);
+		System.out.println(erg2);
 	}
 }
