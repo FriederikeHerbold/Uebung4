@@ -6,12 +6,8 @@ import java.util.List;
 
 public class Nullchiffre implements Crypter {
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#encrypt(java.lang.String
-	 * )
 	 */
 	@Override
 	public String encrypt(String message) throws CrypterException {
@@ -23,11 +19,8 @@ public class Nullchiffre implements Crypter {
 		return message;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#encrypt(java.util.List)
 	 */
 	@Override
 	public List<String> encrypt(List<String> messages) throws CrypterException {
@@ -43,12 +36,8 @@ public class Nullchiffre implements Crypter {
 		return messages;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#decrypt(java.lang.String
-	 * )
 	 */
 	@Override
 	public String decrypt(String cypherText) throws CrypterException {
@@ -56,11 +45,8 @@ public class Nullchiffre implements Crypter {
 		return erg;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/**
 	 * 
-	 * @see
-	 * ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#decrypt(java.util.List)
 	 */
 	@Override
 	public List<String> decrypt(List<String> cyrherTexte)
@@ -68,7 +54,10 @@ public class Nullchiffre implements Crypter {
 		encrypt(cyrherTexte);
 		return cyrherTexte;
 	}
-
+/**
+ * 
+ * @param args
+ */
 	public static void main(String[] args) {
 		Nullchiffre nul = new Nullchiffre();
 		String message = "HZa  11JKv";
