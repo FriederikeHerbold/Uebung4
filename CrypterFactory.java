@@ -12,11 +12,11 @@ public class CrypterFactory {
 		case SUBSTITUTION:
 			return new CrypterSubstitution(schluessel);
 		case REVERSE:
-			return new CrypterReverse(schluessel);
+			return new Umkehrverschlüsselung();
 		case XOR:
 			return new CrypterXor(schluessel);
 		case NULL:
-			return new CrypterNull(schluessel);
+			return new Nullchiffre();
 		default:
 			return null;
 			
