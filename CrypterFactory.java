@@ -4,10 +4,11 @@ public class CrypterFactory {
 	public enum Verschluesselung {
 		CAESAR, SUBSTITUTION, REVERSE, XOR, NULL;
 	}
-	
-	public Crypter createCrypter(String schluessel, Verschluesselung art){
-		switch (art){
-		case CAESAR: 
+
+	public static Crypter createCrypter(String schluessel, Verschluesselung art)
+			throws IlligalKeyException {
+		switch (art) {
+		case CAESAR:
 			return new CrypterCarsar(schluessel);
 		case SUBSTITUTION:
 			return new CrypterSubstitution(schluessel);
@@ -19,8 +20,20 @@ public class CrypterFactory {
 			return new Nullchiffre();
 		default:
 			return null;
-			
+
 		}
-		
+
+	}
+
+	public static Crypter createCrypter(Verschluesselung type)
+			throws CrypterException {
+		switch (type) {
+		case REVERSE:
+			return new Umkehrverschlüsselung();
+		case NULL:
+			return new Nullchiffre();
+		default:
+			throw new CrypterException();
+		}
 	}
 }

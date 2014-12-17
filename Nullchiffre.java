@@ -4,80 +4,66 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Nullchiffre implements Crypter {
+public class Nullchiffre extends AbstractCrypter {
+	/**
+	 * Methode zum überprüfen des Schlüssels auf falsche zeichen
+	 * 
+	 * @param wert
+	 * @throws IlligalKeyException
+	 */
+	@Override
+	public void checkKey(String wert) throws IlligalKeyException {
+		if (!wert.isEmpty()) {
+			throw new IlligalKeyException();
+		}
+	}
 
 	/**
+	 * Methode zum überprüfen der message auf falsche zeichen
 	 * 
+	 * @param wert
+	 * @throws CrypterException
+	 */
+	public void check(String wert) throws CrypterException {
+		for (int index = 0; index < wert.length(); index++) {
+			if (!"ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains("" + wert.charAt(index))) {
+				throw new CrypterException();
+			}
+		}
+	}
+
+	/**
+	 * Verschlüsselt den gegebenen Text mit dem angegebenen Schlüssel.
+	 * 
+	 * @param message
+	 *            Nachricht, die Verschlüsselt werden soll.
+	 * 
+	 * @return verschlüsselter Text.
+	 * @throws CrypterException
+	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
+	 *             Auftreten.
 	 */
 	@Override
 	public String encrypt(String message) throws CrypterException {
-		for (int index = 0; index < message.length(); index++) {
-			if (message.charAt(index) > 'Z' || message.charAt(index) < 'A') {
-				throw new CrypterException(message.charAt(index));
-			}
-		}
+		check(message);
 		return message;
 	}
 
 	/**
+	 * Entschlüsselt den gegebenen Text mit dem angegebenen Schlüssel.
 	 * 
-	 */
-	@Override
-	public List<String> encrypt(List<String> messages) throws CrypterException {
-		Iterator<String> iterator = messages.iterator();
-		String wert = iterator.next();
-		while (iterator.hasNext()) {
-			for (int index = 0; index < wert.length(); index++) {
-				if (wert.charAt(index) > 'Z' || wert.charAt(index) < 'A') {
-					throw new CrypterException(wert.charAt(index));
-				}
-			}
-		}
-		return messages;
-	}
-
-	/**
+	 * @param cypterText
+	 *            Nachricht, die entschlüsselt werden soll.
 	 * 
+	 * @return entschlüsselter Text.
+	 * @throws CrypterException
+	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
+	 *             auftreten.
 	 */
 	@Override
 	public String decrypt(String cypherText) throws CrypterException {
 		String erg = encrypt(cypherText);
 		return erg;
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public List<String> decrypt(List<String> cyrherTexte)
-			throws CrypterException {
-		encrypt(cyrherTexte);
-		return cyrherTexte;
-	}
-/**
- * 
- * @param args
- */
-	public static void main(String[] args) {
-		Nullchiffre nul = new Nullchiffre();
-		String message = "HZa  11JKv";
-		boolean schleifeEnde = false;
-		String erg = "";
-
-		while (!schleifeEnde) {
-			try {
-				erg = nul.decrypt(message);
-				schleifeEnde = true;
-			} catch (CrypterException ex) {
-				message = message.toUpperCase();
-				for (int index = 0; index < message.length(); index++) {
-					message = message.replaceAll("(?u)[^\\pL]", "");
-				}
-			}
-
-		}
-		System.out.println(message);
-		System.out.println(erg);
 	}
 
 }

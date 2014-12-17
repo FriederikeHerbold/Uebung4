@@ -5,7 +5,11 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class CrypterXor implements Crypter {
+public class CrypterXor extends AbstractCrypter {
+	/**
+	 * Enums um den Zeichen über die Ordinalzahlen werte zuzuweisen
+	 *
+	 */
 	private enum Alphabet {
 		AA('@'), A('A'), B('B'), C('C'), D('D'), E('E'), F('F'), G('G'), H('H'), I(
 				'I'), J('J'), K('K'), L('L'), M('M'), N('N'), O('O'), P('P'), Q(
@@ -31,11 +35,12 @@ public class CrypterXor implements Crypter {
 	}
 
 	/**
+	 * Methode zum überprüfen des Schlüssels auf ungültige zeichen
 	 * 
 	 * @param wert
 	 * @throws IlligalKeyException
 	 */
-	private void checkKey(String wert) throws IlligalKeyException {
+	public void checkKey(String wert) throws IlligalKeyException {
 		for (int index = 0; index < wert.length(); index++) {
 			if (!"ABCDEFGHIJKLMNOPQRSTUVWXYZ@[\\]^_".contains(""
 					+ wert.charAt(index))) {
@@ -45,11 +50,12 @@ public class CrypterXor implements Crypter {
 	}
 
 	/**
+	 * Methode zum überprüfen der message auf falsche zeichen
 	 * 
 	 * @param wert
 	 * @throws CrypterException
 	 */
-	private void check(String wert) throws CrypterException {
+	public void check(String wert) throws CrypterException {
 		for (int index = 0; index < wert.length(); index++) {
 			if (!"ABCDEFGHIJKLMNOPQRSTUVWXYZ@[\\]^_".contains(""
 					+ wert.charAt(index))) {
@@ -101,31 +107,6 @@ public class CrypterXor implements Crypter {
 	}
 
 	/**
-	 * Verschluesselt den gegebenen Text mit dem angegebenen Schluessel.
-	 * 
-	 * @param messages
-	 *            Nachrichten, die Verschlüsselt werden soll.
-	 * 
-	 * @return verschluesselte Texte.
-	 * @throws CrypterException
-	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
-	 *             auftreten.
-	 */
-	public List<String> encrypt(List<String> messages) throws CrypterException {
-		ArrayList<String> erg = new ArrayList<>();
-		Iterable<String> iterable = messages;
-		Iterator<String> iterator = iterable.iterator();
-		String wert = iterator.next();
-
-		while (iterator.hasNext()) {
-			check(iterator.next());
-
-			erg.add(encrypt(iterator.next()));
-		}
-		return erg;
-	}
-
-	/**
 	 * Entschlüsselt den gegebenen Text mit dem angegebenen Schlüssel. Ruft
 	 * encrypt(String), da decrypten und encrypten bei Xor identisch.
 	 * 
@@ -140,23 +121,6 @@ public class CrypterXor implements Crypter {
 
 	public String decrypt(String cypherText) throws CrypterException {
 		return encrypt(cypherText);
-	}
-
-	/**
-	 * Entschlüsselt den gegebenen Text mit dem angegebenen Schlüssel. Ruft
-	 * encrypt(List<String>), da decrypten und encrypten bei Xor identisch.
-	 * 
-	 * @param cypterTexte
-	 *            Nachricht, die entschlüsselt werden soll.
-	 * 
-	 * @return entschlüsselte Texte.
-	 * @throws CrypterException
-	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
-	 *             auftreten.
-	 */
-	public List<String> decrypt(List<String> cyrherTexte)
-			throws CrypterException {
-		return encrypt(cyrherTexte);
 	}
 
 	public static void main(String[] args) {

@@ -4,99 +4,75 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Umkehrverschlüsselung implements Crypter {
+public class Umkehrverschlüsselung extends AbstractCrypter {
+	/**
+	 * Methode zum überprüfen des Schlüssels auf falsche zeichen
+	 * 
+	 * @param wert
+	 * @throws IlligalKeyException
+	 */
+	@Override
+	public void checkKey(String wert) throws IlligalKeyException {
+		if (!wert.isEmpty()) {
+			throw new IlligalKeyException();
+		}
+	}
+	/**
+	 * Methode zum überprüfen der message auf falsche zeichen
+	 * 
+	 * @param wert
+	 * @throws CrypterException
+	 */
+	public void check(String wert) throws CrypterException {
+		for (int index = 0; index < wert.length(); index++) {
+			if (!"ABCDEFGHIJKLMNOPQRSTUVWXYZ".contains("" + wert.charAt(index))) {
+				throw new CrypterException();
+			}
+		}
+	}
 
-	/* (non-Javadoc)
-	 * @see ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#encrypt(java.lang.String)
+	/**
+	 * Verschlüsselt den gegebenen Text mit dem angegebenen Schlüssel.
+	 * 
+	 * @param message
+	 *            Nachricht, die Verschlüsselt werden soll.
+	 * 
+	 * @return verschlüsselter Text.
+	 * @throws CrypterException
+	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
+	 *             Auftreten.
 	 */
 	@Override
 	public String encrypt(String message) throws CrypterException {
 		String erg = "";
-		for (int index = 0; index < message.length(); index++) {
-			if (message.charAt(index) > 'Z' || message.charAt(index) < 'A') {
-				throw new CrypterException(message.charAt(index));
-			}
+		try{
+			check(message);
 		}
-		for (int index = message.length()-1; index >= 0; index -- ){
+		catch(CrypterException ex){
+			message = message.replaceAll("(?u)[^\\pL]", "");
+		}
+		for (int index = message.length() - 1; index >= 0; index--) {
 			erg += message.charAt(index);
 		}
 		return erg;
 	}
 
-	/* (non-Javadoc)
-	 * @see ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#encrypt(java.util.List)
-	 */
-	@Override
-	public List<String> encrypt(List<String> messages) throws CrypterException {
-		ArrayList<String> erg = new ArrayList<>();
-		Iterable<String> iterable = messages;
-		Iterator<String> iterator = iterable.iterator();
-		String wert = iterator.next();
-		while (iterator.hasNext()) {
-			for (int index = 0; index < wert.length(); index++) {
-				if (wert.charAt(index) > 'Z' || wert.charAt(index) < 'A') {
-					throw new CrypterException(wert.charAt(index));
-				}
-			}
-		}
-		while (iterator.hasNext()) {
-			erg.add(encrypt(iterator.next()));
-		}
-		return erg;
-	}
-
-	/* (non-Javadoc)
-	 * @see ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#decrypt(java.lang.String)
+	/**
+	 * Entschlüsselt den gegebenen Text mit dem angegebenen Schlüssel.
+	 * 
+	 * @param cypterText
+	 *            Nachricht, die entschlüsselt werden soll.
+	 * 
+	 * @return entschlüsselter Text.
+	 * @throws CrypterException
+	 *             Wird geworfen, wenn Probleme mit der Verschlüsselung
+	 *             auftreten.
 	 */
 	@Override
 	public String decrypt(String cypherText) throws CrypterException {
 		String erg = encrypt(cypherText);
 		return erg;
 	}
-
-	/* (non-Javadoc)
-	 * @see ws2014.tpe.gruppe_1415349_1410206.uebung4.Crypter#decrypt(java.util.List)
-	 */
-	@Override
-	public List<String> decrypt(List<String> cyrherTexte)
-			throws CrypterException {
-		ArrayList<String> erg = new ArrayList<>();
-		Iterable<String> iterable = cyrherTexte;
-		Iterator<String> iterator = iterable.iterator();
-		String wert = iterator.next();
-		while (iterator.hasNext()) {
-			for (int index = 0; index < wert.length(); index++) {
-				if (wert.charAt(index) > 'Z' || wert.charAt(index) < 'A') {
-					throw new CrypterException(wert.charAt(index));
-				}
-			}
-		}
-		while (iterator.hasNext()) {
-			erg.add(decrypt(iterator.next()));
-		}
-		return erg;
-	}
-
-	public static void main(String[] args) {
-		Umkehrverschlüsselung umk = new Umkehrverschlüsselung();
-		String message = "HZa  11JKv";
-		boolean schleifeEnde = false;
-		String erg = "";
-
-		while (!schleifeEnde) {
-			try {
-				erg = umk.decrypt(message);
-				schleifeEnde = true;
-			} catch (CrypterException ex) {
-				message = message.toUpperCase();
-				for (int index = 0; index < message.length(); index++) {
-					message = message.replaceAll("(?u)[^\\pL]", "");
-				}
-			}
-
-		}
-		System.out.println(message);
-		System.out.println(erg);
-	}
+	
 
 }
